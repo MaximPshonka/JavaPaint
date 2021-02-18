@@ -1,6 +1,7 @@
 package com.max1maka;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -39,12 +40,30 @@ public class PrimaryController {
     private CheckBox isEraser;
 
     @FXML
+    private CheckBox isStraight;
+
+    @FXML
     private Canvas canvas;
 
     @FXML
     void initialize() {
         GraphicsContext g = canvas.getGraphicsContext2D();
 
+        ArrayList<CheckBox> list = new ArrayList<>();
+        list.add(isEraser); list.add(isStraight);
+        list.add(isSquare); list.add(isBrush);
+        list.add(isTriangle); list.add(isEllipse);
+
+        //методы, нужные чтобы убирать галочки со всех чекбоксов, когда выбирается другой чекбокс
+        // (только один чекбокс может быть активен)
+        isEraser.setOnMouseClicked(e -> leaveOneSelector(list, isEraser));
+        isStraight.setOnMouseClicked(e -> leaveOneSelector(list, isStraight));
+        isSquare.setOnMouseClicked(e -> leaveOneSelector(list, isSquare));
+        isTriangle.setOnMouseClicked(e -> leaveOneSelector(list, isTriangle));
+        isEllipse.setOnMouseClicked(e -> leaveOneSelector(list, isEllipse));
+        isBrush.setOnMouseClicked(e -> leaveOneSelector(list, isBrush));
+
+        //рисование кривых линий и их стирание
         canvas.setOnMouseDragged(e -> {
             double size = Double.parseDouble(brushSize.getText());
             double y = e.getY() - size / 2;
@@ -58,6 +77,16 @@ public class PrimaryController {
                 g.fillRect(x, y, size, size);
             }
         });
+
+
+    }
+
+    private void leaveOneSelector(ArrayList<CheckBox> list, CheckBox active) {
+        for (CheckBox i: list){
+            if (i != active){
+                i.setSelected(false);
+            }
+        }
 
     }
 }
