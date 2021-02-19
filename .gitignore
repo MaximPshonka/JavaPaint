@@ -1,6 +1,6 @@
 #General Java
 
-.target/
+target/
 
 # Compiled class file
 *.class
