@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
-
+<?import javafx.scene.layout.RowConstraints?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.max1maka.PrimaryController">
    <children>
@@ -20,6 +24,10 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <MenuItem mnemonicParsing="false" text="Save as" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -37,14 +45,135 @@
       <HBox layoutY="27.0" prefHeight="26.0" prefWidth="800.0">
          <children>
             <ColorPicker fx:id="colorPicker" />
-            <Label prefHeight="26.0" prefWidth="85.0" text=" Размер кисти:" />
-            <TextField fx:id="brushSize" prefHeight="26.0" prefWidth="70.0" text="10" />
-            <CheckBox fx:id="isBrush" mnemonicParsing="false" prefHeight="26.0" prefWidth="58.0" text="Кисть" />
-            <CheckBox fx:id="isEllipse" mnemonicParsing="false" prefHeight="26.0" prefWidth="66.0" text="Эллипс" />
-            <CheckBox fx:id="isSquare" mnemonicParsing="false" prefHeight="26.0" prefWidth="114.0" text="Прямоугольник" />
-            <CheckBox fx:id="isTriangle" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" text="Треугольник" />
-            <CheckBox fx:id="isStraight" mnemonicParsing="false" prefHeight="26.0" prefWidth="80.0" text="Прямая" />
-            <CheckBox fx:id="isEraser" mnemonicParsing="false" prefHeight="26.0" prefWidth="96.0" text="Стерка" />
+            <Label prefHeight="26.0" prefWidth="98.0" text=" Толщина линии:" />
+            <TextField fx:id="brushSize" prefHeight="26.0" prefWidth="35.0" text="10" />
+            <Label prefHeight="26.0" prefWidth="85.0" text=" Инструменты:" />
+            <GridPane fx:id="gridInstruments" gridLinesVisible="true" prefHeight="26.0" prefWidth="339.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <ImageView fx:id="imgBrush" fitHeight="26.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icons8-кисть-64.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgCircle" fitHeight="26.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
+                     <image>
+                        <Image url="@../../assets/icons8-круг-64.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgSquare" fitHeight="31.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                     <image>
+                        <Image url="@../../assets/icons8-прямоугольник-64.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgLine" fitHeight="27.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                     <image>
+                        <Image url="@../../assets/icons8-линия-48.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgTriangle" fitHeight="27.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                     <image>
+                        <Image url="@../../assets/icons8-треугольник-48.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgMultiline" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="6">
+                     <image>
+                        <Image url="@../../assets/icons8-ломаная-кривая-48.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgPencil" fitHeight="27.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                     <image>
+                        <Image url="@../../assets/icons8-редактировать-100.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgPolygon" fitHeight="27.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="7">
+                     <image>
+                        <Image url="@../../assets/icons8-пятиугольник-50.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgStar" fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="8">
+                     <image>
+                        <Image url="@../../assets/icons8-звезда-48.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgEraser" fitHeight="27.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="9">
+                     <image>
+                        <Image url="@../../assets/icons8-ластик-64.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgFill" fitHeight="27.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="10">
+                     <image>
+                        <Image url="@../../assets/icons8-цвет-заливки-52.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgAdd" fitHeight="28.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="12">
+                     <image>
+                        <Image url="@../../assets/icons8-плюс-128.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fx:id="imgFill1" fitHeight="27.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11">
+                     <image>
+                        <Image url="@../../assets/icons8-пунктир-48.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </GridPane>
          </children>
       </HBox>
    </children>
