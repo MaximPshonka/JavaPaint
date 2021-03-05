@@ -2,6 +2,8 @@ package com.max1maka;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.max1maka.actions.Actionable;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ColorPicker;
@@ -9,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-public class PrimaryController {
+public class PrimaryController implements Actionable {
 
     @FXML
     private ResourceBundle resources;

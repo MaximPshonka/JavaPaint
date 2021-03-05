@@ -24,15 +24,16 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
               <MenuItem mnemonicParsing="false" text="Close" />
-                  <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Redo" />
                   <MenuItem mnemonicParsing="false" text="Save as" />
                   <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Open" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <MenuItem mnemonicParsing="false" text="Clear" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -164,7 +165,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ImageView fx:id="imgFill1" fitHeight="27.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11">
+                  <ImageView fx:id="imgDottedLine" fitHeight="27.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="11">
                      <image>
                         <Image url="@../../assets/icons8-пунктир-48.png" />
                      </image>
