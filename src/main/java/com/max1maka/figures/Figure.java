@@ -22,11 +22,11 @@ public abstract class Figure {
     private double[] x;
     private double[] y;
 
-    public void setX(double[] x) {
+    protected void setX(double[] x) {
         this.x = x;
     }
 
-    public void setY(double[] y) {
+    protected void setY(double[] y) {
         this.y = y;
     }
 
