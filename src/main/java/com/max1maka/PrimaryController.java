@@ -1,23 +1,21 @@
 package com.max1maka;
 
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.max1maka.actions.Actionable;
+import com.max1maka.figures.Figure;
+import com.max1maka.figures.FigureCircle;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 
 public class PrimaryController implements Actionable {
-
-    @FXML
-    private ResourceBundle resources;
-
-    @FXML
-    private URL location;
 
     @FXML
     private Canvas canvas;
@@ -30,9 +28,6 @@ public class PrimaryController implements Actionable {
 
     @FXML
     private GridPane gridInstruments;
-
-    @FXML
-    private ImageView imgBrush;
 
     @FXML
     private ImageView imgCircle;
@@ -50,16 +45,7 @@ public class PrimaryController implements Actionable {
     private ImageView imgMultiline;
 
     @FXML
-    private ImageView imgPencil;
-
-    @FXML
     private ImageView imgPolygon;
-
-    @FXML
-    private ImageView imgStar;
-
-    @FXML
-    private ImageView imgEraser;
 
     @FXML
     private ImageView imgFill;
@@ -67,11 +53,23 @@ public class PrimaryController implements Actionable {
     @FXML
     private ImageView imgAdd;
 
-    @FXML
-    private ImageView imgDottedLine;
+    private double x;
+    private double y;
+    private List<Object> figures = new ArrayList<>();
 
     @FXML
     void initialize() {
 
     }
 }
+
+
+//    GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
+//        graphicsContext.setFill(Color.BLACK);
+//                canvas.setOnDragDetected(mouseEvent -> {
+//                x = mouseEvent.getX();
+//                y = mouseEvent.getY();
+//                });
+//                canvas.setOnMouseDragged((event) -> {
+//                graphicsContext.strokeOval(x, y, event.getX() - x, event.getY() - y);
+//                });

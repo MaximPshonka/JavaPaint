@@ -1,58 +1,25 @@
 package com.max1maka.figures;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public abstract class Figure {
-    String color;
-    double lineThickness;
-    long startX;
-    long startY;
 
-    public abstract void draw();
+    abstract void draw(double[] x, double[] y);
+    abstract void setFillColor(String color);
 
-    public void undo(){
+    private String borderColor;
+    private String lineThickness;
+    private GraphicsContext gc;
 
-    }
+    // эти массивы будут заполнены после того,
+    // как пользователь отпустит ЛКМ и конечный вариант фигуры будет отрисован
+    private double[] x;
+    private double[] y;
 
-    public void redo(){
-
-    }
-
-    public Figure(String color, double lineThickness, long startX, long startY) {
-        this.color = color;
+    public Figure(String borderColor, String lineThickness, GraphicsContext gc) {
+        this.borderColor = borderColor;
         this.lineThickness = lineThickness;
-        this.startX = startX;
-        this.startY = startY;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public double getLineThickness() {
-        return lineThickness;
-    }
-
-    public long getStartX() {
-        return startX;
-    }
-
-    public void setStartX(long startX) {
-        this.startX = startX;
-    }
-
-    public long getStartY() {
-        return startY;
-    }
-
-    public void setStartY(long startY) {
-        this.startY = startY;
-    }
-
-    public void setLineThickness(double lineThickness) {
-        this.lineThickness = lineThickness;
+        this.gc = gc;
     }
 
 }
