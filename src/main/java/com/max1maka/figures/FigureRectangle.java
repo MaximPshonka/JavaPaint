@@ -1,14 +1,20 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class FigureRectangle extends Figure{
-    public FigureRectangle(String borderColor, String lineThickness, GraphicsContext gc) {
-        super(borderColor, lineThickness, gc);
+    public FigureRectangle(Color borderColor, int lineThickness) {
+        super(borderColor, lineThickness);
     }
 
     @Override
-    public void draw(double[] x, double[] y) {
+    public void preview(double[] x, double[] y, GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void draw(double[] x, double[] y, GraphicsContext gc) {
 
     }
 

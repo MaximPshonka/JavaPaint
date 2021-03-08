@@ -18,7 +18,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.max1maka.PrimaryController">
    <children>
-      <Canvas fx:id="canvas" height="588.0" layoutY="53.0" width="800.0" />
+      <Canvas fx:id="canvasDraw" height="588.0" layoutY="54.0" width="806.0" />
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="800.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -132,5 +132,6 @@
             </GridPane>
          </children>
       </HBox>
+      <Canvas fx:id="canvasPreview" height="588.0" layoutX="-5.0" layoutY="52.0" width="806.0" />
    </children>
 </Pane>

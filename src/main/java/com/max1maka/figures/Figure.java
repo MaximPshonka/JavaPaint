@@ -1,20 +1,21 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public abstract class Figure {
 
-    public Figure(String borderColor, String lineThickness, GraphicsContext gc) {
+    public Figure(Color borderColor, int lineThickness) {
         this.borderColor = borderColor;
         this.lineThickness = lineThickness;
-        this.gc = gc;
     }
 
-    abstract void draw(double[] x, double[] y);
-    abstract void setFillColor(String color);
+    abstract public void draw(double[] x, double[] y, GraphicsContext gc);
+    abstract public void preview(double[] x, double[] y, GraphicsContext gc);
+    abstract public void setFillColor(String color);
 
-    private String borderColor;
-    private String lineThickness;
+    private Color borderColor;
+    private int lineThickness;
     private GraphicsContext gc;
 
     // эти массивы будут заполнены после того,
@@ -30,4 +31,11 @@ public abstract class Figure {
         this.y = y;
     }
 
+    protected Color getBorderColor() {
+        return borderColor;
+    }
+
+    protected double getLineThickness() {
+        return lineThickness;
+    }
 }

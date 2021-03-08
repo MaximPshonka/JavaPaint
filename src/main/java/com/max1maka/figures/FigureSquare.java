@@ -1,15 +1,26 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class FigureSquare extends Figure{
-    public FigureSquare(String borderColor, String lineThickness, GraphicsContext gc) {
-        super(borderColor, lineThickness, gc);
+    public FigureSquare(Color borderColor, int lineThickness) {
+        super(borderColor, lineThickness);
     }
 
     @Override
-    public void draw(double[] x, double[] y) {
+    public void preview(double[] x, double[] y, GraphicsContext gc) {
+        gc.clearRect(0, 0, 800, 640);
+        gc.setStroke(getBorderColor());
+        gc.setLineWidth(getLineThickness());
+        gc.strokeRect(x[0], y[0], x[1], y[1]);
+    }
 
+    @Override
+    public void draw(double[] x, double[] y, GraphicsContext gc) {
+        gc.setStroke(getBorderColor());
+        gc.setLineWidth(getLineThickness());
+        gc.strokeRect(x[0], y[0], x[1], y[1]);
     }
 
     @Override
