@@ -10,12 +10,17 @@ public class FigureLine extends Figure{
 
     @Override
     public void preview(double[] x, double[] y, GraphicsContext gc) {
-
+        gc.clearRect(0, 0, 800, 640);
+        gc.setStroke(getBorderColor());
+        gc.setLineWidth(getLineThickness());
+        gc.strokeLine(x[0], y[0], x[1], y[1]);
     }
 
     @Override
     public void draw(double[] x, double[] y, GraphicsContext gc) {
-
+        gc.setStroke(getBorderColor());
+        gc.setLineWidth(getLineThickness());
+        gc.strokeLine(x[0], y[0], x[1], y[1]);
     }
 
     @Override

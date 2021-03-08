@@ -6,6 +6,7 @@ import java.util.*;
 import com.max1maka.actions.Actionable;
 import com.max1maka.figures.Figure;
 import com.max1maka.figures.FigureCircle;
+import com.max1maka.figures.FigureLine;
 import com.max1maka.figures.FigureSquare;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,6 +17,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+
+import static java.lang.Double.NaN;
 
 public class PrimaryController implements Actionable {
 
@@ -58,8 +61,8 @@ public class PrimaryController implements Actionable {
     @FXML
     private Canvas canvasPreview;
 
-    private double x;
-    private double y;
+    private double x = NaN;
+    private double y = NaN;
     private List<Object> figures = new ArrayList<>();
 
 
@@ -85,6 +88,12 @@ public class PrimaryController implements Actionable {
             currentFigure = square;
         });
 
+        imgLine.setOnMouseClicked(event -> {
+            FigureLine line = new FigureLine(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            figures.add(line);
+            currentFigure = line;
+        });
+
         canvasDraw.setOnDragDetected(mouseEvent -> {
             x = mouseEvent.getX();
             y = mouseEvent.getY();
@@ -92,16 +101,18 @@ public class PrimaryController implements Actionable {
 
         canvasDraw.setOnMouseDragged(event -> {
             canvasPreview.setVisible(true);
-            currentFigure.preview(new double[] {x, event.getX() - x},
-                    new double[] {y, event.getY() - y},
+            currentFigure.preview(new double[] {x, event.getX()},
+                    new double[] {y, event.getY()},
                     graphicsContextPreview);
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
             canvasPreview.setVisible(false);
-            currentFigure.draw(new double[] {x, dragEvent.getX() - x},
-                    new double[] {y, dragEvent.getY() - y},
+            currentFigure.draw(new double[] {x, dragEvent.getX()},
+                    new double[] {y, dragEvent.getY()},
                     graphicsContextDraw);
+            x = NaN;
+            y = NaN;
         });
 
 
