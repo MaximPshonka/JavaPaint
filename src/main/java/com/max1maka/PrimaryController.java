@@ -4,10 +4,7 @@ import java.net.URL;
 import java.util.*;
 
 import com.max1maka.actions.Actionable;
-import com.max1maka.figures.Figure;
-import com.max1maka.figures.FigureCircle;
-import com.max1maka.figures.FigureLine;
-import com.max1maka.figures.FigureSquare;
+import com.max1maka.figures.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
@@ -15,10 +12,13 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
+import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.lang.Double.NaN;
+import static java.lang.Double.isNaN;
 
 public class PrimaryController implements Actionable {
 
@@ -61,20 +61,18 @@ public class PrimaryController implements Actionable {
     @FXML
     private Canvas canvasPreview;
 
-    private double x = NaN;
-    private double y = NaN;
+    private double[] coords = {NaN, NaN};
+
     private List<Object> figures = new ArrayList<>();
-
-
     private Figure currentFigure;
 
-    private Map<Double, Double> coordinates = new HashMap<>();
-
     @FXML
-    void initialize() {
+    public void initialize() {
         GraphicsContext graphicsContextDraw = canvasDraw.getGraphicsContext2D();
         GraphicsContext graphicsContextPreview = canvasPreview.getGraphicsContext2D();
+
         canvasPreview.setVisible(false);
+        canvasDraw.setFocusTraversable(true);
 
         imgCircle.setOnMouseClicked(event -> {
             FigureCircle circle = new FigureCircle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
@@ -94,25 +92,39 @@ public class PrimaryController implements Actionable {
             currentFigure = line;
         });
 
+        imgMultiline.setOnMouseClicked(event -> {
+            FigureMultiline multiline = new FigureMultiline(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            figures.add(multiline);
+            currentFigure = multiline;
+        });
+
+
+
         canvasDraw.setOnDragDetected(mouseEvent -> {
-            x = mouseEvent.getX();
-            y = mouseEvent.getY();
+            if (isNaN(coords[0])) {
+                coords[0] = mouseEvent.getX();
+                coords[1] = mouseEvent.getY();
+            }
         });
 
         canvasDraw.setOnMouseDragged(event -> {
             canvasPreview.setVisible(true);
-            currentFigure.preview(new double[] {x, event.getX()},
-                    new double[] {y, event.getY()},
+            currentFigure.preview(new double[] {coords[0], event.getX()},
+                    new double[] {coords[1], event.getY()},
                     graphicsContextPreview);
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
             canvasPreview.setVisible(false);
-            currentFigure.draw(new double[] {x, dragEvent.getX()},
-                    new double[] {y, dragEvent.getY()},
+            coords = currentFigure.draw(new double[] {coords[0], dragEvent.getX()},
+                    new double[] {coords[1], dragEvent.getY()},
                     graphicsContextDraw);
-            x = NaN;
-            y = NaN;
+        });
+
+        canvasDraw.setOnKeyReleased(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER){
+                coords[0] = coords[1] = NaN;
+            }
         });
 
 

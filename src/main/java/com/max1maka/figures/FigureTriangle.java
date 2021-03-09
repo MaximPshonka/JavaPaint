@@ -3,6 +3,8 @@ package com.max1maka.figures;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+import static java.lang.Double.NaN;
+
 public class FigureTriangle extends Figure{
     public FigureTriangle(Color borderColor, int lineThickness) {
         super(borderColor, lineThickness);
@@ -14,8 +16,9 @@ public class FigureTriangle extends Figure{
     }
 
     @Override
-    public void draw(double[] x, double[] y, GraphicsContext gc) {
+    public double[] draw(double[] x, double[] y, GraphicsContext gc) {
 
+        return new double[] {NaN, NaN};
     }
 
     @Override

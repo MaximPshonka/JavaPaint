@@ -10,7 +10,7 @@ public abstract class Figure {
         this.lineThickness = lineThickness;
     }
 
-    abstract public void draw(double[] x, double[] y, GraphicsContext gc);
+    abstract public double[] draw(double[] x, double[] y, GraphicsContext gc);
     abstract public void preview(double[] x, double[] y, GraphicsContext gc);
     abstract public void setFillColor(String color);
 
