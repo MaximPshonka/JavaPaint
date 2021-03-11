@@ -11,8 +11,8 @@ import java.util.Map;
 import static java.lang.Double.NaN;
 
 public class FigureMultiline extends Figure{
-    List<Double> xs = new ArrayList<>();
-    List<Double> ys = new ArrayList<>();
+    private List<Double> xs = new ArrayList<>();
+    private List<Double> ys = new ArrayList<>();
 
     public FigureMultiline(Color borderColor, int lineThickness) {
         super(borderColor, lineThickness);
@@ -36,7 +36,7 @@ public class FigureMultiline extends Figure{
         ys.add(y[0]); ys.add(y[1]);
         setX(getArrayFromList(xs));
         setY(getArrayFromList(ys));
-        
+
         return new double[] {x[1], y[1]};
     }
 

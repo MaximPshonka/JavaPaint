@@ -59,6 +59,9 @@ public class PrimaryController implements Actionable {
     private ImageView imgAdd;
 
     @FXML
+    private ImageView imgMultiangle;
+
+    @FXML
     private Canvas canvasPreview;
 
     private double[] coords = {NaN, NaN};
@@ -98,9 +101,27 @@ public class PrimaryController implements Actionable {
             currentFigure = multiline;
         });
 
+        imgTriangle.setOnMouseClicked(event -> {
+            FigureTriangle triangle = new FigureTriangle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            figures.add(triangle);
+            currentFigure = triangle;
+        });
 
+        imgPolygon.setOnMouseClicked(event -> {
+            FigurePolygon polygon = new FigurePolygon(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            figures.add(polygon);
+            currentFigure = polygon;
+        });
 
-        canvasDraw.setOnDragDetected(mouseEvent -> {
+        imgMultiangle.setOnMouseClicked(event -> {
+            FigureMultiangle multiangle = new FigureMultiangle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            figures.add(multiangle);
+            currentFigure = multiangle;
+        });
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        canvasDraw.setOnMousePressed(mouseEvent -> {
             if (isNaN(coords[0])) {
                 coords[0] = mouseEvent.getX();
                 coords[1] = mouseEvent.getY();
@@ -123,29 +144,11 @@ public class PrimaryController implements Actionable {
 
         canvasDraw.setOnKeyReleased(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER){
-                coords[0] = coords[1] = NaN;
+                coords[0] = NaN;
+                coords[1] = NaN;
             }
         });
 
-
     }
+
 }
-
-
-
-
-// создаем Мап "Название элемента - Класс"
-// при нажатии на элемент создаем объект класса (берем его из мапа)
-
-
-//TODO спросить чем отличается многоугольник от ломаной
-
-//    GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-//        graphicsContext.setFill(Color.BLACK);
-//                canvas.setOnDragDetected(mouseEvent -> {
-//                x = mouseEvent.getX();
-//                y = mouseEvent.getY();
-//                });
-//                canvas.setOnMouseDragged((event) -> {
-//                  graphicsContext.strokeOval(x, y, event.getX() - x, event.getY() - y);
-//                });
