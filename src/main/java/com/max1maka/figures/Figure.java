@@ -5,8 +5,11 @@ import javafx.scene.paint.Color;
 
 public abstract class Figure {
 
-    public Figure(Color borderColor, int lineThickness) {
+    public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
+    }
+
+    public void setLineThickness(int lineThickness) {
         this.lineThickness = lineThickness;
     }
 

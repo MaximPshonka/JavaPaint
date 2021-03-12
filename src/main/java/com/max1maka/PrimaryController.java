@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
@@ -64,6 +66,12 @@ public class PrimaryController implements Actionable {
     @FXML
     private Canvas canvasPreview;
 
+    @FXML
+    private HBox hBox;
+
+    @FXML
+    private Pane pane;
+
     private double[] coords = {NaN, NaN};
 
     private List<Object> figures = new ArrayList<>();
@@ -77,51 +85,52 @@ public class PrimaryController implements Actionable {
         canvasPreview.setVisible(false);
         canvasDraw.setFocusTraversable(true);
 
+
         imgCircle.setOnMouseClicked(event -> {
-            FigureCircle circle = new FigureCircle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureCircle circle = new FigureCircle();
             figures.add(circle);
             currentFigure = circle;
         });
 
         imgSquare.setOnMouseClicked(event -> {
-            FigureSquare square = new FigureSquare(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureSquare square = new FigureSquare();
             figures.add(square);
             currentFigure = square;
         });
 
         imgLine.setOnMouseClicked(event -> {
-            FigureLine line = new FigureLine(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureLine line = new FigureLine();
             figures.add(line);
             currentFigure = line;
         });
 
         imgMultiline.setOnMouseClicked(event -> {
-            FigureMultiline multiline = new FigureMultiline(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureMultiline multiline = new FigureMultiline();
             figures.add(multiline);
             currentFigure = multiline;
         });
 
         imgTriangle.setOnMouseClicked(event -> {
-            FigureTriangle triangle = new FigureTriangle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureTriangle triangle = new FigureTriangle();
             figures.add(triangle);
             currentFigure = triangle;
         });
 
         imgPolygon.setOnMouseClicked(event -> {
-            FigurePolygon polygon = new FigurePolygon(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigurePolygon polygon = new FigurePolygon();
             figures.add(polygon);
             currentFigure = polygon;
         });
 
         imgMultiangle.setOnMouseClicked(event -> {
-            FigureMultiangle multiangle = new FigureMultiangle(colorPicker.getValue(), Integer.parseInt(brushSize.getText()));
+            FigureMultiangle multiangle = new FigureMultiangle();
             figures.add(multiangle);
             currentFigure = multiangle;
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        canvasDraw.setOnMousePressed(mouseEvent -> {
+        canvasDraw.setOnDragDetected(mouseEvent -> {
             if (isNaN(coords[0])) {
                 coords[0] = mouseEvent.getX();
                 coords[1] = mouseEvent.getY();
@@ -129,17 +138,22 @@ public class PrimaryController implements Actionable {
         });
 
         canvasDraw.setOnMouseDragged(event -> {
+            currentFigure.setBorderColor(colorPicker.getValue());
+            currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
             canvasPreview.setVisible(true);
-            currentFigure.preview(new double[] {coords[0], event.getX()},
-                    new double[] {coords[1], event.getY()},
+            currentFigure.preview(new double[]{coords[0], event.getX()},
+                    new double[]{coords[1], event.getY()},
                     graphicsContextPreview);
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
+            currentFigure.setBorderColor(colorPicker.getValue());
+            currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
             canvasPreview.setVisible(false);
-            coords = currentFigure.draw(new double[] {coords[0], dragEvent.getX()},
-                    new double[] {coords[1], dragEvent.getY()},
+            coords = currentFigure.draw(new double[]{coords[0], dragEvent.getX()},
+                    new double[]{coords[1], dragEvent.getY()},
                     graphicsContextDraw);
+            canvasDraw.requestFocus();
         });
 
         canvasDraw.setOnKeyReleased(keyEvent -> {

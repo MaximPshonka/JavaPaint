@@ -14,10 +14,6 @@ public class FigureMultiline extends Figure{
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
 
-    public FigureMultiline(Color borderColor, int lineThickness) {
-        super(borderColor, lineThickness);
-    }
-
     @Override
     public void preview(double[] x, double[] y, GraphicsContext gc) {
         gc.clearRect(0, 0, 800, 640);

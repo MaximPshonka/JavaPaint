@@ -6,9 +6,6 @@ import javafx.scene.paint.Color;
 import static java.lang.Double.NaN;
 
 public class FigurePolygon extends Figure{
-    public FigurePolygon(Color borderColor, int lineThickness) {
-        super(borderColor, lineThickness);
-    }
 
     @Override
     public void preview(double[] x, double[] y, GraphicsContext gc) {

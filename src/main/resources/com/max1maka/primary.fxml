@@ -16,9 +16,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.max1maka.PrimaryController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.max1maka.PrimaryController">
    <children>
-      <Canvas fx:id="canvasDraw" height="588.0" layoutY="54.0" width="806.0" />
+      <Canvas fx:id="canvasDraw" height="588.0" layoutX="-3.0" layoutY="53.0" width="806.0" />
       <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="800.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
@@ -43,7 +43,7 @@
           </Menu>
         </menus>
       </MenuBar>
-      <HBox layoutY="27.0" prefHeight="26.0" prefWidth="800.0">
+      <HBox fx:id="hBox" layoutY="27.0" prefHeight="26.0" prefWidth="800.0">
          <children>
             <ColorPicker fx:id="colorPicker" />
             <Label prefHeight="26.0" prefWidth="98.0" text=" Толщина линии:" />
@@ -141,6 +141,6 @@
             </GridPane>
          </children>
       </HBox>
-      <Canvas fx:id="canvasPreview" height="588.0" layoutX="-5.0" layoutY="52.0" width="806.0" />
+      <Canvas fx:id="canvasPreview" height="588.0" layoutX="-3.0" layoutY="53.0" width="806.0" />
    </children>
 </Pane>

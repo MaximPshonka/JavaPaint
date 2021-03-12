@@ -5,9 +5,6 @@ import javafx.scene.paint.Color;
 import static java.lang.Double.NaN;
 
 public class FigureLine extends Figure{
-    public FigureLine(Color borderColor, int lineThickness) {
-        super(borderColor, lineThickness);
-    }
 
     @Override
     public void preview(double[] x, double[] y, GraphicsContext gc) {

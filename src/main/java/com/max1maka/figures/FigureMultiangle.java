@@ -13,19 +13,20 @@ import static java.lang.Double.isNaN;
 public class FigureMultiangle extends Figure{
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
-    private int i = 1;
-
-    public FigureMultiangle(Color borderColor, int lineThickness) {
-        super(borderColor, lineThickness);
-    }
+    private int i;
 
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setFill(getBorderColor());
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
-        xs.add(x[0]);
-        ys.add(y[0]);
+        if (isNaN(x[0])){
+            xs.clear();
+            ys.clear();
+            i = 1;
+        }
+        xs.add(x[1]);
+        ys.add(y[1]);
         double[] coordX = makeAnArray(xs);
         double[] coordY = makeAnArray(ys);
         if (i < 3) {
@@ -36,8 +37,7 @@ public class FigureMultiangle extends Figure{
         i++;
         setX(coordX);
         setY(coordY);
-
-        return new double[] {NaN, NaN};
+        return new double[] {x[1], y[1]};
     }
 
     private double[] makeAnArray(List<Double> coords) {
