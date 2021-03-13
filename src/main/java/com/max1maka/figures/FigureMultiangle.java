@@ -13,13 +13,14 @@ import static java.lang.Double.isNaN;
 public class FigureMultiangle extends Figure{
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
+    private List<Double> xs2 = new ArrayList<>();
+    private List<Double> ys2 = new ArrayList<>();
     private int i;
 
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setFill(getBorderColor());
         gc.setStroke(getBorderColor());
-        gc.setLineWidth(getLineThickness());
         if (isNaN(x[0])){
             xs.clear();
             ys.clear();
@@ -30,7 +31,7 @@ public class FigureMultiangle extends Figure{
         double[] coordX = makeAnArray(xs);
         double[] coordY = makeAnArray(ys);
         if (i < 3) {
-            gc.fillOval(xs.get(xs.size() - 1), ys.get(ys.size() - 1), 1, 1);
+            gc.fillOval(x[1], y[1], 1, 1);
         } else {
             gc.fillPolygon(coordX, coordY, i);
         }
@@ -40,21 +41,38 @@ public class FigureMultiangle extends Figure{
         return new double[] {x[1], y[1]};
     }
 
+    @Override
+    public void preview(double[] x, double[] y, GraphicsContext gc) {
+        gc.clearRect(0, 0, 800, 640);
+        gc.setFill(getBorderColor());
+        gc.setStroke(getBorderColor());
+
+        for (int j = 0; j < xs.size(); j++) {
+           xs2.add(xs.get(j));
+           ys2.add(ys.get(j));
+        }
+
+        xs2.add(x[1]);
+        ys2.add(y[1]);
+        if (i < 3) {
+            gc.fillOval(x[1], y[1], 1, 1);
+        } else {
+            gc.fillPolygon(makeAnArray(xs2), makeAnArray(ys2), i);
+        }
+        xs2.clear();
+        ys2.clear();
+    }
+
+    @Override
+    public void setFillColor(String color) {
+
+    }
+
     private double[] makeAnArray(List<Double> coords) {
         double[] arr = new double[coords.size()];
         for (int j = 0; j < coords.size(); j++) {
             arr[j] = coords.get(j);
         }
         return arr;
-    }
-
-    @Override
-    public void preview(double[] x, double[] y, GraphicsContext gc) {
-
-    }
-
-    @Override
-    public void setFillColor(String color) {
-
     }
 }
