@@ -138,15 +138,18 @@ public class PrimaryController implements Actionable {
         });
 
         canvasDraw.setOnMouseDragged(event -> {
-            currentFigure.setBorderColor(colorPicker.getValue());
-            currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
-            canvasPreview.setVisible(true);
-            currentFigure.preview(new double[]{coords[0], event.getX()},
-                    new double[]{coords[1], event.getY()},
-                    graphicsContextPreview);
+            if (currentFigure != null) {
+                currentFigure.setBorderColor(colorPicker.getValue());
+                currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
+                canvasPreview.setVisible(true);
+                currentFigure.preview(new double[]{coords[0], event.getX()},
+                        new double[]{coords[1], event.getY()},
+                        graphicsContextPreview);
+            }
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
+            if (currentFigure != null){
             currentFigure.setBorderColor(colorPicker.getValue());
             currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
             canvasPreview.setVisible(false);
@@ -154,6 +157,7 @@ public class PrimaryController implements Actionable {
                     new double[]{coords[1], dragEvent.getY()},
                     graphicsContextDraw);
             canvasDraw.requestFocus();
+            }
         });
 
         canvasDraw.setOnKeyReleased(keyEvent -> {
