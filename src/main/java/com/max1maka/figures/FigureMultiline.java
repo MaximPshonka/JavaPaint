@@ -1,14 +1,9 @@
 package com.max1maka.figures;
 
-import com.max1maka.PrimaryController;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-import static java.lang.Double.NaN;
 
 public class FigureMultiline extends Figure{
     private List<Double> xs = new ArrayList<>();
@@ -26,6 +21,8 @@ public class FigureMultiline extends Figure{
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
+        colors.add(getBorderColor());
+        thicks.add((int) getLineThickness());
         gc.strokeLine(x[0], y[0], x[1], y[1]);
 
         xs.add(x[0]); xs.add(x[1]);
@@ -33,7 +30,24 @@ public class FigureMultiline extends Figure{
         setX(getArrayFromList(xs));
         setY(getArrayFromList(ys));
 
+        setCoordinades(getArrayFromList(xs), getArrayFromList(ys));
+
         return new double[] {x[1], y[1]};
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc) {
+        gc.setStroke(colors.get(figureIndex));
+        gc.setLineWidth(thicks.get(figureIndex));
+
+        double startX = coordinades.get(figureIndex)[0][coordinades.get(figureIndex)[1].length - 2];
+        double startY = coordinades.get(figureIndex)[1][coordinades.get(figureIndex)[1].length - 2];;
+        double tempX = coordinades.get(figureIndex)[0][coordinades.get(figureIndex)[1].length - 1];;
+        double tempY = coordinades.get(figureIndex)[1][coordinades.get(figureIndex)[1].length - 1];;
+
+        gc.strokeLine(startX, startY, tempX, tempY);
+        figureIndex++;
+
     }
 
     @Override

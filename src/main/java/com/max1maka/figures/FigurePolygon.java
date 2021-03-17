@@ -1,7 +1,6 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import static java.lang.Double.NaN;
 
@@ -20,10 +19,14 @@ public class FigurePolygon extends Figure{
         gc.strokePolygon(xs, ys, 5);
     }
 
+    // здесь ломается, почему - непонятно
+
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
+        colors.add(getBorderColor());
+        thicks.add((int) getLineThickness());
 
         double tempX = (x[1] - x[0]) / 2 + x[0];
 
@@ -33,7 +36,24 @@ public class FigurePolygon extends Figure{
 
         setX(xs);
         setY(ys);
+
+        setCoordinades(xs, ys);
         return new double[] {NaN, NaN};
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc) {
+        gc.setStroke(colors.get(figureIndex));
+        gc.setLineWidth(thicks.get(figureIndex));
+
+        double[] x = new double[coordinades.get(figureIndex)[0].length];
+        double[] y = new double[coordinades.get(figureIndex)[0].length];
+        for (int i = 0; i < coordinades.get(figureIndex)[0].length; i++) {
+            x[i] = coordinades.get(figureIndex)[0][i];
+            y[i] = coordinades.get(figureIndex)[1][i];
+        }
+        gc.strokePolygon(x, y, 5);
+        figureIndex++;
     }
 
     @Override

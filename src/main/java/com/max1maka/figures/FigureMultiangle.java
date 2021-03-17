@@ -1,13 +1,10 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static java.lang.Double.NaN;
 import static java.lang.Double.isNaN;
 
 public class FigureMultiangle extends Figure{
@@ -21,6 +18,8 @@ public class FigureMultiangle extends Figure{
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setFill(getBorderColor());
         gc.setStroke(getBorderColor());
+        colors.add(getBorderColor());
+        thicks.add((int) getLineThickness());
         if (isNaN(x[0])){
             xs.clear();
             ys.clear();
@@ -38,7 +37,24 @@ public class FigureMultiangle extends Figure{
         i++;
         setX(coordX);
         setY(coordY);
+
+        setCoordinades(coordX, coordY);
         return new double[] {x[1], y[1]};
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc) {
+        gc.setStroke(colors.get(figureIndex));
+        gc.setLineWidth(thicks.get(figureIndex));
+        double[] x = new double[coordinades.get(figureIndex)[0].length];
+        double[] y = new double[coordinades.get(figureIndex)[0].length];
+
+        for (int i = 0; i < coordinades.get(figureIndex)[0].length; i++) {
+            x[i] = coordinades.get(figureIndex)[0][i];
+            y[i] = coordinades.get(figureIndex)[1][i];
+        }
+        gc.fillPolygon(x, y, coordinades.get(figureIndex)[0].length);
+        figureIndex++;
     }
 
     @Override

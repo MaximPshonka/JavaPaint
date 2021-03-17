@@ -1,7 +1,6 @@
 package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 
 import static java.lang.Double.NaN;
 
@@ -22,14 +21,31 @@ public class FigureTriangle extends Figure{
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
-
+        colors.add(getBorderColor());
+        thicks.add((int) getLineThickness());
         double[] xs = new double[] {x[0], (x[1] - x[0]) / 2 + x[0], x[1]};
         double[] ys = new double[] {y[1], y[0], y[1]};
         gc.strokePolygon(xs, ys, 3);
 
         setX(xs);
         setY(ys);
+
+        setCoordinades(xs, ys);
         return new double[] {NaN, NaN};
+    }
+
+    @Override
+    public void redraw(GraphicsContext gc) {
+        gc.setStroke(colors.get(figureIndex));
+        gc.setLineWidth(thicks.get(figureIndex));
+        double[] x = new double[3];
+        double[] y = new double[3];
+        for (int i = 0; i < 3; i++) {
+            x[i] = coordinades.get(figureIndex)[0][i];
+            y[i] = coordinades.get(figureIndex)[1][i];
+        }
+        gc.strokePolygon(x, y, 3);
+        figureIndex++;
     }
 
     @Override
