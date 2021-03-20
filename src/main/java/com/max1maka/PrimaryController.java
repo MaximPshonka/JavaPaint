@@ -7,14 +7,19 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
+import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.lang.Double.NaN;
 import static java.lang.Double.isNaN;
@@ -52,13 +57,13 @@ public class PrimaryController implements Actionable {
     private ImageView imgPolygon;
 
     @FXML
+    private ImageView imgMultiangle;
+
+    @FXML
     private ImageView imgFill;
 
     @FXML
     private ImageView imgAdd;
-
-    @FXML
-    private ImageView imgMultiangle;
 
     @FXML
     private Canvas canvasPreview;
@@ -71,9 +76,14 @@ public class PrimaryController implements Actionable {
 
     private double[] coords = {NaN, NaN};
 
-    private List<Figure> figures = new ArrayList<>();
     private List<Figure> deletedFigures = new ArrayList<>();
     private Figure currentFigure;
+
+    private List<Figure> figures = new ArrayList<>();
+
+    private List<Double[]> lastCoords = new ArrayList<>();
+
+    int k = 0;
 
     @FXML
     public void initialize() {
@@ -84,45 +94,45 @@ public class PrimaryController implements Actionable {
         canvasDraw.setFocusTraversable(true);
 
         imgCircle.setOnMouseClicked(event -> {
-            FigureCircle circle = new FigureCircle();
-   //         figures.add(circle);
-            currentFigure = circle;
-        });
-
-        imgSquare.setOnMouseClicked(event -> {
-            FigureSquare square = new FigureSquare();
-  //          figures.add(square);
-            currentFigure = square;
+            figures.add(new FigureCircle());
+            currentFigure = new FigureCircle();
+            lastCoords.clear();
         });
 
         imgLine.setOnMouseClicked(event -> {
-            FigureLine line = new FigureLine();
-   //         figures.add(line);
-            currentFigure = line;
+            figures.add(new FigureLine());
+            currentFigure = new FigureLine();
+            lastCoords.clear();
+        });
+
+        imgSquare.setOnMouseClicked(event -> {
+            figures.add(new FigureSquare());
+            currentFigure = new FigureSquare();
+            lastCoords.clear();
         });
 
         imgMultiline.setOnMouseClicked(event -> {
-            FigureMultiline multiline = new FigureMultiline();
-     //       figures.add(multiline);
-            currentFigure = multiline;
+            figures.add(new FigureMultiline());
+            currentFigure = new FigureMultiline();
+            lastCoords.clear();
         });
 
         imgTriangle.setOnMouseClicked(event -> {
-            FigureTriangle triangle = new FigureTriangle();
-    //        figures.add(triangle);
-            currentFigure = triangle;
+            figures.add(new FigureTriangle());
+            currentFigure = new FigureTriangle();
+            lastCoords.clear();
         });
 
         imgPolygon.setOnMouseClicked(event -> {
-            FigurePolygon polygon = new FigurePolygon();
-     //       figures.add(polygon);
-            currentFigure = polygon;
+            figures.add(new FigurePolygon());
+            currentFigure = new FigurePolygon();
+            lastCoords.clear();
         });
 
         imgMultiangle.setOnMouseClicked(event -> {
-            FigureMultiangle multiangle = new FigureMultiangle();
-     //       figures.add(multiangle);
-            currentFigure = multiangle;
+            figures.add(new FigureMultiangle());
+            currentFigure = new FigureMultiangle();
+            lastCoords.clear();
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,6 +142,7 @@ public class PrimaryController implements Actionable {
                 coords[0] = mouseEvent.getX();
                 coords[1] = mouseEvent.getY();
             }
+
         });
 
         canvasDraw.setOnMouseDragged(event -> {
@@ -140,21 +151,36 @@ public class PrimaryController implements Actionable {
                 currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
                 canvasPreview.setVisible(true);
                 currentFigure.preview(new double[]{coords[0], event.getX()},
-                        new double[]{coords[1], event.getY()},
+                        new double[]{coords[1], event.getY()}, lastCoords,
                         graphicsContextPreview);
             }
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
             if (currentFigure != null){
-                currentFigure.setBorderColor(colorPicker.getValue());
-                currentFigure.setLineThickness(Integer.parseInt(brushSize.getText()));
+
+                if (k == 8){
+                    System.out.println("fsdaf");
+                }
+
+                if (figures.get(figures.size() - 1).isClassFilled()) {
+                    makeLastFigureCopy();
+                }
+
+                lastCoords.add(new Double[] {dragEvent.getX(), dragEvent.getY()});
+
+
+                figures.get(figures.size() - 1).setBorderColor(colorPicker.getValue());
+                figures.get(figures.size() - 1).setLineThickness(Integer.parseInt(brushSize.getText()));
                 canvasPreview.setVisible(false);
-                coords = currentFigure.draw(new double[]{coords[0], dragEvent.getX()},
+                coords = figures.get(figures.size() - 1).draw(new double[]{coords[0], dragEvent.getX()},
                         new double[]{coords[1], dragEvent.getY()},
                         graphicsContextDraw);
                 canvasDraw.requestFocus();
-                figures.add(currentFigure);
+                if (deletedFigures.size() != 0){
+                    deletedFigures.clear();
+                }
+                k++;
             }
 
         });
@@ -163,29 +189,77 @@ public class PrimaryController implements Actionable {
             if (keyEvent.getCode() == KeyCode.ENTER){
                 coords[0] = NaN;
                 coords[1] = NaN;
+                lastCoords.clear();
+                makeLastFigureCopy();
             }
             if (keyEvent.getCode() == KeyCode.HOME){
-                graphicsContextDraw.clearRect(0, 0, 800, 640);
-                for (int i = 0; i < figures.size(); i++) {
-                    figures.get(i).setFigureIndex(0);
-                }
+                if (figures.size() > 0) {
+                    graphicsContextDraw.clearRect(0, 0, 800, 640);
 
-                for (int i = 0; i < figures.size() - 1; i++) {
-                    figures.get(i).redraw(graphicsContextDraw);
-                }
+                    int temp = (figures.get(figures.size() - 1).isClassFilled()) ? 1 : 2;
+                    for (int i = 0; i < figures.size() - temp; i++) {
+                        figures.get(i).redraw(graphicsContextDraw, 0);
+                    }
 
-                deletedFigures.add(figures.get(figures.size() - 1));
-                figures.remove(figures.get(figures.size() - 1));
+                    deletedFigures.add(figures.get(figures.size() - temp));
+                    if (temp == 2){
+                        figures.remove(figures.get(figures.size() - 2));
+                    }
+                    figures.remove(figures.get(figures.size() - 1));
+                }
             }
-            if (keyEvent.getCode() == KeyCode.PAGE_UP){
-                deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw);
-                figures.add(deletedFigures.get(deletedFigures.size() - 1));
-                deletedFigures.remove(deletedFigures.size() - 1);
-
+            if (keyEvent.getCode() == KeyCode.PAGE_UP) {
+                if (deletedFigures.size() > 0) {
+                    deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw, 0);
+                    figures.add(deletedFigures.get(deletedFigures.size() - 1));
+                    deletedFigures.remove(deletedFigures.size() - 1);
+                }
             }
         });
 
+    }
 
+    public void makeLastFigureCopy(){
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream ous = null;
+        try {
+            ous = new ObjectOutputStream(baos);
+            ous.writeObject(figures.get(figures.size() - 1));
+            ous.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //сохранили состояние объекта в поток и закрыли его
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+        ObjectInputStream ois = null;
+        try {
+            ois = new ObjectInputStream(bais);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //создаем копию последней фигуры и инициализируем состоянием предыдущей
+        Figure newFigure = null;
+        try {
+            newFigure = (Figure)ois.readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        };
+        figures.add(newFigure);
+        figures.get(figures.size() - 1).setIfsClassNew();
     }
 
 }
+
+
+//    Field[] fields = this.getClass().getDeclaredFields();
+//        for(Field f : fields){
+//                Class t = f.getType();
+//                if (t == ImageView.class && !f.getName().equals("imgFill") && !f.getName().equals("imgAdd") ){
+//        figuresMap.put(f.getName(), new );
+//        }
+//        }

@@ -10,7 +10,7 @@ public class FigureMultiline extends Figure{
     private List<Double> ys = new ArrayList<>();
 
     @Override
-    public void preview(double[] x, double[] y, GraphicsContext gc) {
+    public void preview(double[] x, double[] y,List<Double[]> lastCoords,  GraphicsContext gc) {
         gc.clearRect(0, 0, 800, 640);
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
@@ -19,34 +19,30 @@ public class FigureMultiline extends Figure{
 
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
+
         gc.setStroke(getBorderColor());
         gc.setLineWidth(getLineThickness());
-        colors.add(getBorderColor());
-        thicks.add((int) getLineThickness());
         gc.strokeLine(x[0], y[0], x[1], y[1]);
 
         xs.add(x[0]); xs.add(x[1]);
         ys.add(y[0]); ys.add(y[1]);
-        setX(getArrayFromList(xs));
-        setY(getArrayFromList(ys));
 
         setCoordinades(getArrayFromList(xs), getArrayFromList(ys));
-
+        isClassFilled = true;
         return new double[] {x[1], y[1]};
     }
 
     @Override
-    public void redraw(GraphicsContext gc) {
-        gc.setStroke(colors.get(figureIndex));
-        gc.setLineWidth(thicks.get(figureIndex));
+    public void redraw(GraphicsContext gc, int param) {
+        gc.setStroke(getBorderColor());
+        gc.setLineWidth(getLineThickness());
 
-        double startX = coordinades.get(figureIndex)[0][coordinades.get(figureIndex)[1].length - 2];
-        double startY = coordinades.get(figureIndex)[1][coordinades.get(figureIndex)[1].length - 2];;
-        double tempX = coordinades.get(figureIndex)[0][coordinades.get(figureIndex)[1].length - 1];;
-        double tempY = coordinades.get(figureIndex)[1][coordinades.get(figureIndex)[1].length - 1];;
+        double startX = coordinades.get(0)[0][coordinades.get(0)[1].length - 2];
+        double startY = coordinades.get(0)[1][coordinades.get(0)[1].length - 2];;
+        double tempX = coordinades.get(0)[0][coordinades.get(0)[1].length - 1];;
+        double tempY = coordinades.get(0)[1][coordinades.get(0)[1].length - 1];;
 
         gc.strokeLine(startX, startY, tempX, tempY);
-        figureIndex++;
 
     }
 
