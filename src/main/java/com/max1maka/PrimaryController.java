@@ -74,16 +74,11 @@ public class PrimaryController implements Actionable {
     @FXML
     private Pane pane;
 
-    private double[] coords = {NaN, NaN};
-
     private List<Figure> deletedFigures = new ArrayList<>();
-    private Figure currentFigure;
-
     private List<Figure> figures = new ArrayList<>();
-
+    private Figure currentFigure;
     private List<Double[]> lastCoords = new ArrayList<>();
-
-    int k = 0;
+    private double[] coords = {NaN, NaN};
 
     @FXML
     public void initialize() {
@@ -142,7 +137,6 @@ public class PrimaryController implements Actionable {
                 coords[0] = mouseEvent.getX();
                 coords[1] = mouseEvent.getY();
             }
-
         });
 
         canvasDraw.setOnMouseDragged(event -> {
@@ -158,18 +152,10 @@ public class PrimaryController implements Actionable {
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
             if (currentFigure != null){
-
-                if (k == 8){
-                    System.out.println("fsdaf");
-                }
-
-                if (figures.get(figures.size() - 1).isClassFilled()) {
+                if (figures.size() > 0 && figures.get(figures.size() - 1).isClassFilled()) {
                     makeLastFigureCopy();
                 }
-
                 lastCoords.add(new Double[] {dragEvent.getX(), dragEvent.getY()});
-
-
                 figures.get(figures.size() - 1).setBorderColor(colorPicker.getValue());
                 figures.get(figures.size() - 1).setLineThickness(Integer.parseInt(brushSize.getText()));
                 canvasPreview.setVisible(false);
@@ -180,9 +166,7 @@ public class PrimaryController implements Actionable {
                 if (deletedFigures.size() != 0){
                     deletedFigures.clear();
                 }
-                k++;
             }
-
         });
 
         canvasDraw.setOnKeyReleased(keyEvent -> {
@@ -193,34 +177,16 @@ public class PrimaryController implements Actionable {
                 makeLastFigureCopy();
             }
             if (keyEvent.getCode() == KeyCode.HOME){
-                if (figures.size() > 0) {
-                    graphicsContextDraw.clearRect(0, 0, 800, 640);
-
-                    int temp = (figures.get(figures.size() - 1).isClassFilled()) ? 1 : 2;
-                    for (int i = 0; i < figures.size() - temp; i++) {
-                        figures.get(i).redraw(graphicsContextDraw, 0);
-                    }
-
-                    deletedFigures.add(figures.get(figures.size() - temp));
-                    if (temp == 2){
-                        figures.remove(figures.get(figures.size() - 2));
-                    }
-                    figures.remove(figures.get(figures.size() - 1));
-                }
+                undo(figures, deletedFigures, graphicsContextDraw);
             }
             if (keyEvent.getCode() == KeyCode.PAGE_UP) {
-                if (deletedFigures.size() > 0) {
-                    deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw, 0);
-                    figures.add(deletedFigures.get(deletedFigures.size() - 1));
-                    deletedFigures.remove(deletedFigures.size() - 1);
-                }
+                redo(figures, deletedFigures, graphicsContextDraw);
             }
         });
 
     }
 
     public void makeLastFigureCopy(){
-
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream ous = null;
         try {

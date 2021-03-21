@@ -1,5 +1,8 @@
 package com.max1maka.actions;
 
+import com.max1maka.figures.Figure;
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.List;
 import java.util.Map;
 
@@ -25,19 +28,28 @@ public interface Actionable {
     default void openFromFile(){
 
     }
-    // сюда передается список объектов всех фигур
-    // после чего будет определяться класс последнего объекта
-    // (последний объект сохранятся и возвращается для случая, если его
-    // нужно будет восстановить методом redo()) и сам объект будет очищаться,
-    // тем самым удаляясь с полотна
-     default Object undo(List<Object> figures){
 
-        return null;
+     default void undo(List<Figure> figures, List<Figure> deletedFigures, GraphicsContext graphicsContextDraw){
+         if (figures.size() > 0) {
+             graphicsContextDraw.clearRect(0, 0, 800, 640);
+             int temp = (figures.get(figures.size() - 1).isClassFilled()) ? 1 : 2;
+             for (int i = 0; i < figures.size() - temp; i++) {
+                 figures.get(i).redraw(graphicsContextDraw, 0);
+             }
+             deletedFigures.add(figures.get(figures.size() - temp));
+             if (temp == 2){
+                 figures.remove(figures.get(figures.size() - 2));
+             }
+             figures.remove(figures.get(figures.size() - 1));
+         }
     }
-    // сюда передается объект, возвращенный в предыдущем методе
-    // и отрисовывается заново
-    default void redo(Object figure){
 
+    default void redo(List<Figure> figures, List<Figure> deletedFigures, GraphicsContext graphicsContextDraw){
+        if (deletedFigures.size() > 0) {
+            deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw, 0);
+            figures.add(deletedFigures.get(deletedFigures.size() - 1));
+            deletedFigures.remove(deletedFigures.size() - 1);
+        }
     }
 
 }

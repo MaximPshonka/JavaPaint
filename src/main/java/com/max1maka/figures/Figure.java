@@ -10,7 +10,6 @@ import java.util.List;
 public abstract class Figure implements Serializable {
     public void setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
-        isClassFilled = true;
     }
 
     public void setLineThickness(int lineThickness) {
@@ -24,27 +23,17 @@ public abstract class Figure implements Serializable {
 
     transient private Color borderColor;
     private int lineThickness;
-    transient protected List<Color> colors = new ArrayList<>();
-    protected List<Integer> thicks = new ArrayList<>();
 
     protected boolean isClassFilled = false;
 
     public boolean isClassFilled() {
         return isClassFilled;
     }
-
     public void setIfsClassNew(){
         isClassFilled = false;
     }
 
-
-
-    protected int figureIndex;
-
-
-
     protected List<double[][]> coordinades = new ArrayList<>();
-
 
     protected void setCoordinades(double[] x, double[] y) {
         double[][] coord = {x, y};

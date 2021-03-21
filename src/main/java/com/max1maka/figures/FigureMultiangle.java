@@ -11,14 +11,7 @@ import static java.lang.Double.isNaN;
 public class FigureMultiangle extends Figure{
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
-    private List<Double> xs2 = new ArrayList<>();
-    private List<Double> ys2 = new ArrayList<>();
     private int i;
-    boolean isLastCoordsUsed = false;
-
-    private double tempX = 0;
-    private double tempY = 0;
-
 
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
@@ -39,14 +32,6 @@ public class FigureMultiangle extends Figure{
             gc.fillPolygon(coordX, coordY, coordY.length);
         }
         i++;
-
-        for (int j = 0; j < coordX.length; j++) {
-            System.out.println("X in draw: " + coordX[j]);
-            System.out.println("Y in draw: " + coordY[j]);
-        }
-        System.out.println("Angles in draw: " + (i - 1));
-        System.out.println("");
-
         setCoordinades(coordX, coordY);
         return new double[] {x[1], y[1]};
     }
@@ -54,10 +39,8 @@ public class FigureMultiangle extends Figure{
 
     @Override
     public void preview(double[] x, double[] y,List<Double[]> lastCoords,  GraphicsContext gc) {
-
         gc.clearRect(0, 0, 800, 640);
         gc.setFill(getBorderColor());
-
         xs.clear();
         ys.clear();
         for (int j = 0; j < lastCoords.size(); j++) {
@@ -68,9 +51,7 @@ public class FigureMultiangle extends Figure{
         ys.add(y[1]);
         double[] coordX = makeAnArray(xs);
         double[] coordY = makeAnArray(ys);
-
         gc.fillPolygon(coordX, coordY, coordY.length);
-
     }
 
     @Override
@@ -86,17 +67,8 @@ public class FigureMultiangle extends Figure{
             if (m > 1){
                 gc.fillPolygon(x, y, (m + 1));
             }
-            System.out.println("dot " + (m + 1));
         }
 
-        for (int j = 0; j < coordinades.get(0)[0].length; j++) {
-            System.out.println("X in redraw: " + coordinades.get(0)[0][j]);
-            System.out.println("Y in redraw: " + coordinades.get(0)[1][j]);
-        }
-        System.out.println("Angles in redraw: " + coordinades.get(0)[0].length);
-        System.out.println("");
-
-   //     gc.fillPolygon(x, y, coordinades.get(0)[0].length);
     }
 
     @Override
