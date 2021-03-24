@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +15,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -27,7 +32,28 @@ import static java.lang.Double.isNaN;
 public class PrimaryController implements Actionable {
 
     @FXML
+    private Pane pane;
+
+    @FXML
     private Canvas canvasDraw;
+
+    @FXML
+    private MenuBar menuBar;
+
+    @FXML
+    private MenuItem menuClose;
+
+    @FXML
+    private MenuItem menuSaveAs;
+
+    @FXML
+    private MenuItem menuSave;
+
+    @FXML
+    private MenuItem menuOpen;
+
+    @FXML
+    private HBox hBox;
 
     @FXML
     private ColorPicker colorPicker;
@@ -54,25 +80,19 @@ public class PrimaryController implements Actionable {
     private ImageView imgMultiline;
 
     @FXML
-    private ImageView imgPolygon;
-
-    @FXML
     private ImageView imgMultiangle;
 
     @FXML
-    private ImageView imgFill;
+    private ImageView imgPolygon;
 
     @FXML
     private ImageView imgAdd;
 
     @FXML
+    private ImageView imgFill;
+
+    @FXML
     private Canvas canvasPreview;
-
-    @FXML
-    private HBox hBox;
-
-    @FXML
-    private Pane pane;
 
     private List<Figure> deletedFigures = new ArrayList<>();
     private List<Figure> figures = new ArrayList<>();
@@ -183,6 +203,19 @@ public class PrimaryController implements Actionable {
                 redo(figures, deletedFigures, graphicsContextDraw);
             }
         });
+        menuSave.setOnAction(actionEvent -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save file as");
+            //file - Наш файл для сохранения
+            File file = fileChooser.showSaveDialog(Stage.getWindows().get(0));
+            Window win = Stage.getWindows().get(0);
+            fileChooser.showOpenDialog(win);
+
+            if (file != null){
+               // saveToTheFile();
+            }
+        });
+
 
     }
 

@@ -19,14 +19,14 @@
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.max1maka.PrimaryController">
    <children>
       <Canvas fx:id="canvasDraw" height="588.0" layoutX="-3.0" layoutY="53.0" width="806.0" />
-      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="800.0">
+      <MenuBar fx:id="menuBar" layoutY="1.0" prefHeight="26.0" prefWidth="800.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-                  <MenuItem mnemonicParsing="false" text="Save as" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Open" />
+              <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Close" />
+                  <MenuItem fx:id="menuSaveAs" mnemonicParsing="false" text="Save as" />
+                  <MenuItem fx:id="menuSave" mnemonicParsing="false" text="Save" />
+                  <MenuItem fx:id="menuOpen" mnemonicParsing="false" text="Open" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
