@@ -15,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -42,9 +43,6 @@ public class PrimaryController implements Actionable {
 
     @FXML
     private MenuItem menuClose;
-
-    @FXML
-    private MenuItem menuSaveAs;
 
     @FXML
     private MenuItem menuSave;
@@ -94,11 +92,14 @@ public class PrimaryController implements Actionable {
     @FXML
     private Canvas canvasPreview;
 
+
     private List<Figure> deletedFigures = new ArrayList<>();
     private List<Figure> figures = new ArrayList<>();
     private Figure currentFigure;
     private List<Double[]> lastCoords = new ArrayList<>();
     private double[] coords = {NaN, NaN};
+
+    private Map<Integer, Class> mapFigureTypes = new HashMap<>();
 
     @FXML
     public void initialize() {
@@ -107,6 +108,8 @@ public class PrimaryController implements Actionable {
 
         canvasPreview.setVisible(false);
         canvasDraw.setFocusTraversable(true);
+
+        mapFigureTypes = initFigureTypes();
 
         imgCircle.setOnMouseClicked(event -> {
             figures.add(new FigureCircle());
@@ -208,11 +211,27 @@ public class PrimaryController implements Actionable {
             fileChooser.setTitle("Save file as");
             //file - Наш файл для сохранения
             File file = fileChooser.showSaveDialog(Stage.getWindows().get(0));
-            Window win = Stage.getWindows().get(0);
-            fileChooser.showOpenDialog(win);
 
             if (file != null){
-               // saveToTheFile();
+                saveFile(figures, file);
+            }
+        });
+        menuOpen.setOnAction(actionEvent -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open file");
+            //file - Наш файл для сохранения
+            File file = fileChooser.showOpenDialog(Stage.getWindows().get(0));
+
+            if (file != null){
+                try {
+                    figures = openFile(file, mapFigureTypes);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            graphicsContextDraw.clearRect(0, 0, 800, 640);
+            for (int i = 0; i < figures.size(); i++) {
+                figures.get(i).redraw(graphicsContextDraw, 0);
             }
         });
 
@@ -250,6 +269,18 @@ public class PrimaryController implements Actionable {
         };
         figures.add(newFigure);
         figures.get(figures.size() - 1).setIfsClassNew();
+    }
+
+    private Map<Integer, Class> initFigureTypes() {
+        Map<Integer, Class> map = new HashMap<>();
+        map.put(1, FigureCircle.class);
+        map.put(2, FigureLine.class);
+        map.put(3, FigureMultiangle.class);
+        map.put(4, FigureMultiline.class);
+        map.put(5, FigurePolygon.class);
+        map.put(6, FigureSquare.class);
+        map.put(7, FigureTriangle.class);
+        return map;
     }
 
 }

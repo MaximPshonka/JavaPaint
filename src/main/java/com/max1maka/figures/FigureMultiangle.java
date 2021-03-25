@@ -15,8 +15,9 @@ public class FigureMultiangle extends Figure{
 
     @Override
     public double[] draw(double[] x, double[] y, GraphicsContext gc) {
+        setFigureType(3);
         isClassFilled = true;
-        gc.setFill(getBorderColor());
+        gc.setFill(Color.web(getColorS()));
         if (isNaN(x[0])){
             xs.clear();
             ys.clear();
@@ -40,7 +41,7 @@ public class FigureMultiangle extends Figure{
     @Override
     public void preview(double[] x, double[] y,List<Double[]> lastCoords,  GraphicsContext gc) {
         gc.clearRect(0, 0, 800, 640);
-        gc.setFill(getBorderColor());
+        gc.setFill(Color.web(getColorS()));
         xs.clear();
         ys.clear();
         for (int j = 0; j < lastCoords.size(); j++) {
@@ -56,7 +57,7 @@ public class FigureMultiangle extends Figure{
 
     @Override
     public void redraw(GraphicsContext gc, int param) {
-        gc.setStroke(getBorderColor());
+        gc.setFill(Color.web(getColorS()));
         gc.setLineWidth(getLineThickness());
         double[] x = new double[coordinades.get(0)[0].length];
         double[] y = new double[coordinades.get(0)[0].length];

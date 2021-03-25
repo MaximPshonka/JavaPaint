@@ -1,15 +1,68 @@
 package com.max1maka.actions;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.max1maka.figures.Figure;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public interface Actionable {
-    default void saveFile(){
+    default void saveFile(List<Figure> figures, File file){
+        Gson gson = new Gson();
 
+        String json;
+        FileWriter writer = null;
+        try {
+           writer = new FileWriter(file, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for (Figure fig: figures){
+            json = gson.toJson(fig);
+            try {
+                writer.write(fig.getFigureType() + "\n");
+                writer.write(json + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    default List<Figure> openFile(File file, Map<Integer, Class> mapTypes) throws IOException {
+        List<Figure> figures = new ArrayList<>();
+        int figureType = 0;
+        GsonBuilder builder = new GsonBuilder();
+        Gson gson = builder.create();
+        FileReader fr = new FileReader(file);
+        BufferedReader reader = new BufferedReader(fr);
+        Figure figure = null;
+        int k = 1;
+        String line = reader.readLine();
+        while (line != null){
+            if (k % 2 != 0){
+                figureType = Character.getNumericValue(line.charAt(0));
+            } else {
+                figure = (Figure) gson.fromJson(line, mapTypes.get(figureType));
+                figures.add(figure);
+            }
+            line = reader.readLine();
+            k++;
+        }
+
+        return figures;
+    }
+
+
     default void saveFileAs(){
 
     }
@@ -25,7 +78,7 @@ public interface Actionable {
     default void addPlugin(){
 
     }
-    default void openFromFile(){
+    default void openFile(){
 
     }
 

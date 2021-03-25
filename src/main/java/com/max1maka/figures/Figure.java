@@ -8,8 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Figure implements Serializable {
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
+
+    private int figureType;
+
+    public int getFigureType() {
+        return figureType;
+    }
+
+    public void setFigureType(int figureType) {
+        this.figureType = figureType;
     }
 
     public void setLineThickness(int lineThickness) {
@@ -21,7 +28,7 @@ public abstract class Figure implements Serializable {
     abstract public void preview(double[] x, double[] y, List<Double[]> lastCoords, GraphicsContext gc);
     abstract public void setFillColor(String color);
 
-    transient private Color borderColor;
+    private String colorS;
     private int lineThickness;
 
     protected boolean isClassFilled = false;
@@ -41,12 +48,25 @@ public abstract class Figure implements Serializable {
         coordinades.add(coord);
     }
 
-    protected Color getBorderColor() {
-        return borderColor;
+    public void setBorderColor(Color borderColor) {
+        colorS = toRGBCode(borderColor);
     }
+
+    public String getColorS() {
+        return colorS;
+    }
+
 
     protected double getLineThickness() {
         return lineThickness;
+    }
+
+    protected static String toRGBCode( Color color )
+    {
+        return String.format( "#%02X%02X%02X",
+                (int)( color.getRed() * 255 ),
+                (int)( color.getGreen() * 255 ),
+                (int)( color.getBlue() * 255 ) );
     }
 
 
