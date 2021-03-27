@@ -1,7 +1,5 @@
 #General Java
 
-*.txt
-
 target/**
 
 # Compiled class file
