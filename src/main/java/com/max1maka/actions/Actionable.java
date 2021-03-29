@@ -17,7 +17,7 @@ public interface Actionable {
         String json;
         FileWriter writer = null;
         try {
-           writer = new FileWriter(file, true);
+            writer = new FileWriter(file, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public interface Actionable {
              graphicsContextDraw.clearRect(0, 0, 800, 640);
              int temp = (figures.get(figures.size() - 1).isClassFilled()) ? 1 : 2;
              for (int i = 0; i < figures.size() - temp; i++) {
-                 figures.get(i).redraw(graphicsContextDraw, 0);
+                 figures.get(i).redraw(graphicsContextDraw);
              }
              deletedFigures.add(figures.get(figures.size() - temp));
              if (temp == 2){
@@ -99,7 +99,7 @@ public interface Actionable {
 
     default void redo(List<Figure> figures, List<Figure> deletedFigures, GraphicsContext graphicsContextDraw){
         if (deletedFigures.size() > 0) {
-            deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw, 0);
+            deletedFigures.get(deletedFigures.size() - 1).redraw(graphicsContextDraw);
             figures.add(deletedFigures.get(deletedFigures.size() - 1));
             deletedFigures.remove(deletedFigures.size() - 1);
         }

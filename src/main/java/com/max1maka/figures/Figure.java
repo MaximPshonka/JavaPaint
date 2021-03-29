@@ -24,9 +24,8 @@ public abstract class Figure implements Serializable {
     }
 
     abstract public double[] draw(double[] x, double[] y, GraphicsContext gc);
-    abstract public void redraw(GraphicsContext gc, int param);
+    abstract public void redraw(GraphicsContext gc);
     abstract public void preview(double[] x, double[] y, List<Double[]> lastCoords, GraphicsContext gc);
-    abstract public void setFillColor(String color);
 
     private String colorS;
     private int lineThickness;

@@ -56,7 +56,7 @@ public class FigureMultiangle extends Figure{
     }
 
     @Override
-    public void redraw(GraphicsContext gc, int param) {
+    public void redraw(GraphicsContext gc) {
         gc.setFill(Color.web(getColorS()));
         gc.setLineWidth(getLineThickness());
         double[] x = new double[coordinades.get(0)[0].length];
@@ -72,10 +72,6 @@ public class FigureMultiangle extends Figure{
 
     }
 
-    @Override
-    public void setFillColor(String color) {
-
-    }
 
     private double[] makeAnArray(List<Double> coords) {
         double[] arr = new double[coords.size()];

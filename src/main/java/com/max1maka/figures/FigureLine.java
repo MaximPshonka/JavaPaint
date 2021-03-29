@@ -30,15 +30,11 @@ public class FigureLine extends Figure{
     }
 
     @Override
-    public void redraw(GraphicsContext gc, int param) {
+    public void redraw(GraphicsContext gc) {
         gc.setStroke(Color.web(getColorS()));
         gc.setLineWidth(getLineThickness());
         gc.strokeLine(coordinades.get(0)[0][0], coordinades.get(0)[1][0],
                 coordinades.get(0)[0][1], coordinades.get(0)[1][1]);
     }
 
-    @Override
-    public void setFillColor(String color) {
-
-    }
 }

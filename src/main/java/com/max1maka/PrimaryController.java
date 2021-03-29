@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -87,11 +88,10 @@ public class PrimaryController implements Actionable {
     private ImageView imgAdd;
 
     @FXML
-    private ImageView imgFill;
-
-    @FXML
     private Canvas canvasPreview;
 
+    @FXML
+    private ImageView imgTrapezoid;
 
     private List<Figure> deletedFigures = new ArrayList<>();
     private List<Figure> figures = new ArrayList<>();
@@ -150,6 +150,12 @@ public class PrimaryController implements Actionable {
         imgMultiangle.setOnMouseClicked(event -> {
             figures.add(new FigureMultiangle());
             currentFigure = new FigureMultiangle();
+            lastCoords.clear();
+        });
+
+        imgTrapezoid.setOnMouseClicked(event -> {
+            figures.add(new FigureTrapezoid());
+            currentFigure = new FigureTrapezoid();
             lastCoords.clear();
         });
 
@@ -231,11 +237,18 @@ public class PrimaryController implements Actionable {
             }
             graphicsContextDraw.clearRect(0, 0, 800, 640);
             for (int i = 0; i < figures.size(); i++) {
-                figures.get(i).redraw(graphicsContextDraw, 0);
+                figures.get(i).redraw(graphicsContextDraw);
             }
         });
 
 
+    }
+
+    private void getFigurePull(int i) {
+        int start = (i == 0) ? 1 : 0;
+        for (int j = start; j < 8; j++) {
+
+        }
     }
 
     public void makeLastFigureCopy(){

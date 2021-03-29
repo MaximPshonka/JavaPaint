@@ -34,7 +34,7 @@ public class FigureMultiline extends Figure{
     }
 
     @Override
-    public void redraw(GraphicsContext gc, int param) {
+    public void redraw(GraphicsContext gc) {
         gc.setStroke(Color.web(getColorS()));
         gc.setLineWidth(getLineThickness());
 
@@ -47,10 +47,6 @@ public class FigureMultiline extends Figure{
 
     }
 
-    @Override
-    public void setFillColor(String color) {
-
-    }
 
     private double[] getArrayFromList(List<Double> list){
         double[] array = new double[list.size()];

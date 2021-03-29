@@ -42,7 +42,7 @@ public class FigurePolygon extends Figure{
     }
 
     @Override
-    public void redraw(GraphicsContext gc, int param) {
+    public void redraw(GraphicsContext gc) {
         gc.setStroke(Color.web(getColorS()));
         gc.setLineWidth(getLineThickness());
 
@@ -55,8 +55,4 @@ public class FigurePolygon extends Figure{
         gc.strokePolygon(x, y, 5);
     }
 
-    @Override
-    public void setFillColor(String color) {
-
-    }
 }
