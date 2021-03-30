@@ -20,6 +20,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import org.example.Figure;
+import org.example2.FigureTrapezoid;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -157,6 +159,7 @@ public class PrimaryController implements Actionable {
             figures.add(new FigureTrapezoid());
             currentFigure = new FigureTrapezoid();
             lastCoords.clear();
+
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,12 +247,6 @@ public class PrimaryController implements Actionable {
 
     }
 
-    private void getFigurePull(int i) {
-        int start = (i == 0) ? 1 : 0;
-        for (int j = start; j < 8; j++) {
-
-        }
-    }
 
     public void makeLastFigureCopy(){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -293,6 +290,7 @@ public class PrimaryController implements Actionable {
         map.put(5, FigurePolygon.class);
         map.put(6, FigureSquare.class);
         map.put(7, FigureTriangle.class);
+        map.put(8, FigureTrapezoid.class);
         return map;
     }
 

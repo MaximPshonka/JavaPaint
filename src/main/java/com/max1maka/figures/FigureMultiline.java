@@ -2,11 +2,12 @@ package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.example.Figure;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FigureMultiline extends Figure{
+public class FigureMultiline extends Figure {
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
 

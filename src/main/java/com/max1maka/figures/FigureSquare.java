@@ -2,12 +2,13 @@ package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.example.Figure;
 
 import java.util.List;
 
 import static java.lang.Double.NaN;
 
-public class FigureSquare extends Figure{
+public class FigureSquare extends Figure {
 
 
     @Override

@@ -2,13 +2,14 @@ package com.max1maka.figures;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.example.Figure;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Double.isNaN;
 
-public class FigureMultiangle extends Figure{
+public class FigureMultiangle extends Figure {
     private List<Double> xs = new ArrayList<>();
     private List<Double> ys = new ArrayList<>();
     private int i;

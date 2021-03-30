@@ -2,8 +2,8 @@ package com.max1maka.actions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.max1maka.figures.Figure;
 import javafx.scene.canvas.GraphicsContext;
+import org.example.Figure;
 
 import java.io.*;
 import java.util.ArrayList;
