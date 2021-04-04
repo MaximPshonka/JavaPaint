@@ -21,10 +21,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import org.example.Figure;
-import org.example2.FigureTrapezoid;
+
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -156,10 +157,23 @@ public class PrimaryController implements Actionable {
         });
 
         imgTrapezoid.setOnMouseClicked(event -> {
-            figures.add(new FigureTrapezoid());
-            currentFigure = new FigureTrapezoid();
-            lastCoords.clear();
+            if (isClass("org.example2.FigureTrapezoid")){
+                Class newClass = null;
 
+                try {
+                    figures.add((Class.forName("org.example2.FigureTrapezoid").asSubclass(Figure.class).getConstructor().newInstance()));
+                    currentFigure = (Class.forName("org.example2.FigureTrapezoid").asSubclass(Figure.class).getConstructor().newInstance());
+                } catch (ClassNotFoundException | NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+                lastCoords.clear();
+            }
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -279,6 +293,8 @@ public class PrimaryController implements Actionable {
         };
         figures.add(newFigure);
         figures.get(figures.size() - 1).setIfsClassNew();
+
+
     }
 
     private Map<Integer, Class> initFigureTypes() {
@@ -290,8 +306,25 @@ public class PrimaryController implements Actionable {
         map.put(5, FigurePolygon.class);
         map.put(6, FigureSquare.class);
         map.put(7, FigureTriangle.class);
-        map.put(8, FigureTrapezoid.class);
+
+        if (isClass("org.example2.FigureTrapezoid")){
+            try {
+                map.put(8, Class.forName("org.example2.FigureTrapezoid"));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
         return map;
+    }
+
+    private boolean isClass(String classname){
+        try {
+            Class.forName(classname.trim());
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
     }
 
 }
