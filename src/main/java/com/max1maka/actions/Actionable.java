@@ -17,7 +17,7 @@ public interface Actionable {
         String json;
         FileWriter writer = null;
         try {
-            writer = new FileWriter(file, true);
+            writer = new FileWriter(file, false);
         } catch (IOException e) {
             e.printStackTrace();
         }
