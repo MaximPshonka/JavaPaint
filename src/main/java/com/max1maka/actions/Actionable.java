@@ -62,26 +62,6 @@ public interface Actionable {
         return figures;
     }
 
-
-    default void saveFileAs(){
-
-    }
-    default void aboutProject(){
-
-    }
-    default void close(){
-
-    }
-    default void clear(){
-
-    }
-    default void addPlugin(){
-
-    }
-    default void openFile(){
-
-    }
-
      default void undo(List<Figure> figures, List<Figure> deletedFigures, GraphicsContext graphicsContextDraw){
          if (figures.size() > 0) {
              graphicsContextDraw.clearRect(0, 0, 800, 640);

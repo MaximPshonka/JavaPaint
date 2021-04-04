@@ -9,22 +9,16 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import org.example.Figure;
 
-
 import java.io.*;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -157,9 +151,7 @@ public class PrimaryController implements Actionable {
         });
 
         imgTrapezoid.setOnMouseClicked(event -> {
-            if (isClass("org.example2.FigureTrapezoid")){
-                Class newClass = null;
-
+            if (isClass("org.example2.FigureTrapezoid")) {
                 try {
                     figures.add((Class.forName("org.example2.FigureTrapezoid").asSubclass(Figure.class).getConstructor().newInstance()));
                     currentFigure = (Class.forName("org.example2.FigureTrapezoid").asSubclass(Figure.class).getConstructor().newInstance());
@@ -197,11 +189,11 @@ public class PrimaryController implements Actionable {
         });
 
         canvasDraw.setOnMouseReleased(dragEvent -> {
-            if (currentFigure != null){
+            if (currentFigure != null) {
                 if (figures.size() > 0 && figures.get(figures.size() - 1).isClassFilled()) {
                     makeLastFigureCopy();
                 }
-                lastCoords.add(new Double[] {dragEvent.getX(), dragEvent.getY()});
+                lastCoords.add(new Double[]{dragEvent.getX(), dragEvent.getY()});
                 figures.get(figures.size() - 1).setBorderColor(colorPicker.getValue());
                 figures.get(figures.size() - 1).setLineThickness(Integer.parseInt(brushSize.getText()));
                 canvasPreview.setVisible(false);
@@ -209,20 +201,20 @@ public class PrimaryController implements Actionable {
                         new double[]{coords[1], dragEvent.getY()},
                         graphicsContextDraw);
                 canvasDraw.requestFocus();
-                if (deletedFigures.size() != 0){
+                if (deletedFigures.size() != 0) {
                     deletedFigures.clear();
                 }
             }
         });
 
         canvasDraw.setOnKeyReleased(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER){
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 coords[0] = NaN;
                 coords[1] = NaN;
                 lastCoords.clear();
                 makeLastFigureCopy();
             }
-            if (keyEvent.getCode() == KeyCode.HOME){
+            if (keyEvent.getCode() == KeyCode.HOME) {
                 undo(figures, deletedFigures, graphicsContextDraw);
             }
             if (keyEvent.getCode() == KeyCode.PAGE_UP) {
@@ -235,7 +227,7 @@ public class PrimaryController implements Actionable {
             //file - Наш файл для сохранения
             File file = fileChooser.showSaveDialog(Stage.getWindows().get(0));
 
-            if (file != null){
+            if (file != null) {
                 saveFile(figures, file);
             }
         });
@@ -245,7 +237,7 @@ public class PrimaryController implements Actionable {
             //file - Наш файл для сохранения
             File file = fileChooser.showOpenDialog(Stage.getWindows().get(0));
 
-            if (file != null){
+            if (file != null) {
                 try {
                     figures = openFile(file, mapFigureTypes);
                 } catch (IOException e) {
@@ -258,11 +250,10 @@ public class PrimaryController implements Actionable {
             }
         });
 
-
     }
 
 
-    public void makeLastFigureCopy(){
+    public void makeLastFigureCopy() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream ous = null;
         try {
@@ -285,12 +276,13 @@ public class PrimaryController implements Actionable {
         //создаем копию последней фигуры и инициализируем состоянием предыдущей
         Figure newFigure = null;
         try {
-            newFigure = (Figure)ois.readObject();
+            newFigure = (Figure) ois.readObject();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        };
+        }
+        ;
         figures.add(newFigure);
         figures.get(figures.size() - 1).setIfsClassNew();
 
@@ -307,7 +299,7 @@ public class PrimaryController implements Actionable {
         map.put(6, FigureSquare.class);
         map.put(7, FigureTriangle.class);
 
-        if (isClass("org.example2.FigureTrapezoid")){
+        if (isClass("org.example2.FigureTrapezoid")) {
             try {
                 map.put(8, Class.forName("org.example2.FigureTrapezoid"));
             } catch (ClassNotFoundException e) {
@@ -318,7 +310,7 @@ public class PrimaryController implements Actionable {
         return map;
     }
 
-    private boolean isClass(String classname){
+    private boolean isClass(String classname) {
         try {
             Class.forName(classname.trim());
             return true;
@@ -328,12 +320,3 @@ public class PrimaryController implements Actionable {
     }
 
 }
-
-
-//    Field[] fields = this.getClass().getDeclaredFields();
-//        for(Field f : fields){
-//                Class t = f.getType();
-//                if (t == ImageView.class && !f.getName().equals("imgFill") && !f.getName().equals("imgAdd") ){
-//        figuresMap.put(f.getName(), new );
-//        }
-//        }
